@@ -36,6 +36,13 @@
     <name>WSO2 Carbon - Identity OpenID4VC</name>
     <description>Components for OpenID for Verifiable Credential.</description>
 
+    <scm>
+        <url>https://github.com/wso2-extensions/identity-openid4vci.git</url>
+        <developerConnection>scm:git:https://github.com/wso2-extensions/identity-openid4vci.git</developerConnection>
+        <connection>scm:git:https://github.com/wso2-extensions/identity-openid4vci.git</connection>
+        <tag>HEAD</tag>
+    </scm>
+
     <modules>
         <module>components/org.wso2.carbon.identity.openid4vci.common</module>
         <module>components/org.wso2.carbon.identity.openid4vci.credential</module>

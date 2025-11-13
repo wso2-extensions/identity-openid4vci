@@ -38,7 +38,6 @@ import org.wso2.carbon.user.api.UserRealm;
 import org.wso2.carbon.user.api.UserStoreException;
 import org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -78,13 +77,8 @@ public class CredentialIssuanceService {
         AuthenticatedUser authenticatedUser = accessTokenDO.getAuthzUser();
 
         try {
-            List<VCCredentialConfiguration> credentialConfigurations = configManager.list(reqDTO.getTenantDomain());
-            VCCredentialConfiguration credentialConfiguration = credentialConfigurations.stream()
-                    .filter(config -> config.getIdentifier()
-                            .equals(reqDTO.getCredentialConfigurationId())).findFirst().orElseThrow(() ->
-                            new CredentialIssuanceException("unknown credential configuration: No matching " +
-                                    "credential configuration found for ID: " + reqDTO.getCredentialConfigurationId()));
-            credentialConfiguration = configManager.get(credentialConfiguration.getId(), reqDTO.getTenantDomain());
+            VCCredentialConfiguration credentialConfiguration = configManager
+                    .getByIdentifier(reqDTO.getCredentialConfigurationId(), reqDTO.getTenantDomain());
 
             // Validate scope - check if the required scope exists in JWT token
             validateScope(scopes, credentialConfiguration.getScope());
