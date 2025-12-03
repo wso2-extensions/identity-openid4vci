@@ -62,6 +62,7 @@ public class Constants {
         public static final String FORMAT = "format";
         public static final String SCOPE = "scope";
         public static final String CREDENTIAL_SIGNING_ALG_VALUES_SUPPORTED = "credential_signing_alg_values_supported";
+        public static final String CREDENTIAL_DEFINITION = "credential_definition";
         public static final String CREDENTIAL_METADATA = "credential_metadata";
         public static final String DISPLAY = "display";
         public static final String CLAIMS = "claims";

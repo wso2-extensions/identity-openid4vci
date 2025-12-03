@@ -39,6 +39,7 @@ public class CredentialConfigurationMetadataBuilder {
     private String format;
     private String scope;
     private List<String> signingAlgorithms = new ArrayList<>();
+    private List<String> types = new ArrayList<>();
     private Object display = Collections.emptyList();
     private List<String> claims;
 
@@ -89,6 +90,19 @@ public class CredentialConfigurationMetadataBuilder {
     }
 
     /**
+     * Add a credential type to the type array.
+     *
+     * @param type the credential type (e.g., "VerifiableCredential", "EmployeeBadge")
+     * @return this builder
+     */
+    public CredentialConfigurationMetadataBuilder type(String type) {
+        if (type != null && !type.isEmpty()) {
+            this.types.add(type);
+        }
+        return this;
+    }
+
+    /**
      * Set the display metadata (parsed from JSON).
      *
      * @param display the display object
@@ -133,6 +147,13 @@ public class CredentialConfigurationMetadataBuilder {
         config.put(Constants.CredentialIssuerMetadata.CREDENTIAL_SIGNING_ALG_VALUES_SUPPORTED,
                 signingAlgorithms);
 
+        // Credential definition with types
+        if (!types.isEmpty()) {
+            Map<String, Object> credentialDefinition = new LinkedHashMap<>();
+            credentialDefinition.put(Constants.W3CVCDataModel.TYPE, types);
+            config.put(Constants.CredentialIssuerMetadata.CREDENTIAL_DEFINITION, credentialDefinition);
+        }
+
         // Credential metadata with display and claims
         Map<String, Object> credentialMetadata = new LinkedHashMap<>();
         credentialMetadata.put(Constants.CredentialIssuerMetadata.DISPLAY, display);
@@ -154,7 +175,10 @@ public class CredentialConfigurationMetadataBuilder {
         }
         return claims.stream().map(claim -> {
             Map<String, Object> claimMap = new LinkedHashMap<>();
-            claimMap.put(Constants.CredentialIssuerMetadata.PATH, Collections.singletonList(claim));
+            List<String> path = new ArrayList<>();
+            path.add(Constants.W3CVCDataModel.CREDENTIAL_SUBJECT);
+            path.add(claim);
+            claimMap.put(Constants.CredentialIssuerMetadata.PATH, path);
             return claimMap;
         }).collect(Collectors.toList());
     }
